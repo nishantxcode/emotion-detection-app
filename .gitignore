@@ -1,0 +1,35 @@
+# Ignore virtual environments
+venv/
+env/
+venv310/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*.pyo
+
+# SQLite database
+*.sqlite3
+
+# Media uploads
+media/
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Static file cache
+staticfiles/
+
+# VS Code settings
+.vscode/
+
+# Environment variables
+.env
+
+# Model files (if using DeepFace manually)
+*.h5
+*.pkl
