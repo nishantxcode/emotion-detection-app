@@ -102,9 +102,16 @@ body {
   
 
   footer {
-    margin-top: 30px;
-    font-size: 14px;
-    color: #666;
+    margin-top: 40px;
     text-align: center;
+    font-size: 14px;
+    color: #333;
   }
   
+  footer a {
+    color: #3366cc;
+    text-decoration: none;
+  }
+  footer a:hover {
+    text-decoration: underline;
+  }  
