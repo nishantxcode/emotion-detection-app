@@ -124,7 +124,7 @@ body {
     font-size: 14px;
     color: #333;
   }
-  
+
   footer a {
     color: #3366cc;
     text-decoration: none;
@@ -133,3 +133,57 @@ body {
   footer a:hover {
     text-decoration: underline;
   }  
+
+  /* Theme Toggle Button */
+.theme-toggle-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+#themeToggle {
+  background: transparent;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* 🌙 DARK THEME STYLES */
+.dark-theme {
+  background-color: #121212;
+  color: #e4e4e4;
+}
+
+.dark-theme .container {
+  background-color: #1e1e1e;
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.05);
+}
+
+.dark-theme button {
+  background-color: #3b78c1;
+  color: #fff;
+}
+
+.dark-theme button:hover {
+  background-color: #3163a0;
+}
+
+.dark-theme hr {
+  border-top: 1px solid #444;
+}
+
+.dark-theme h3 {
+  color: #ccc;
+}
+
+.dark-theme footer {
+  color: #aaa;
+}
+
+.dark-theme footer a {
+  color: #7db0ff;
+}
+
+
+
+

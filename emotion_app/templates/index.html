@@ -7,6 +7,127 @@
   <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+  <div class="theme-toggle-container">
+    <button id="themeToggle">🌙</button>
+  </div>
+  <div class="container">
+    <h1>Emotion Detection AI</h1>
+  
+    <form method="POST" enctype="multipart/form-data" id="uploadForm">
+      {% csrf_token %}
+      
+      <input type="file" name="image" accept="image/*" />
+      <button type="submit">Detect Emotion</button>
+      {% if emotion and emotion != "None" %}
+      <p class="result">Detected Emotion: <strong>{{ emotion }}</strong></p>
+      {% endif %}
+
+      <hr>
+    
+      <h3>OR</h3>
+    
+      <button type="button" onclick="startCamera()">📷 Open Camera</button><br><br>
+      <video id="webcam" autoplay playsinline width="300"></video><br>
+      <button type="button" onclick="captureAndSend()">🎯 Capture & Analyze</button>
+    
+      <canvas id="snapshot" style="display:none;"></canvas>
+
+      <img id="preview" style="display:none; margin-top: 15px;" width="300" />
+      <br>
+      <div class="loader" id="spinner" style="display:none;"></div>
+      <p id="emotionResult" style="margin-top: 15px; font-size: 18px;"></p>
+
+    </form>
+
+    <footer>
+      Made with ❤️ by <a href="https://www.linkedin.com/in/nishantraikwar/" target="_blank"> Nishant Raikwar </a>
+    </footer>
+  </div>
+
+  <script>
+    let webcamStream;
+
+    function startCamera() {
+      const video = document.getElementById('webcam');
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => {
+          webcamStream = stream;
+          video.srcObject = stream;
+          video.style.display = "block";
+        })
+        .catch(err => alert("Camera permission denied or not available."));
+    }
+
+    function stopCamera() {
+      if (webcamStream) {
+        webcamStream.getTracks().forEach(track => track.stop());
+        document.getElementById('webcam').style.display = "none";
+      }
+    }
+
+    function captureAndSend() {
+      const video = document.getElementById('webcam');
+      const canvas = document.getElementById('snapshot');
+      const preview = document.getElementById('preview');
+      const spinner = document.getElementById('spinner');
+      const resultDiv = document.getElementById('emotionResult');
+
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0);
+
+      preview.src = canvas.toDataURL("image/jpeg");
+      preview.style.display = "block";
+
+      stopCamera();
+      spinner.style.display = "inline-block";
+      resultDiv.textContent = "";
+
+      canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append("image", blob, "captured.jpg");
+
+        fetch("", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "X-Requested-With": "XMLHttpRequest"
+          },
+          body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+          spinner.style.display = "none";
+          resultDiv.textContent = "Detected Emotion: " + data.emotion;
+        });
+      }, "image/jpeg");
+    }
+
+    window.onload = function () {
+      document.getElementById("emotionResult").textContent = "";
+    };
+
+    // Dark/Light Theme Toggle
+    const themeToggle = document.getElementById("themeToggle");
+    themeToggle.onclick = () => {
+      document.body.classList.toggle("dark-theme");
+    }
+  </script>
+
+</body>
+</html>
+
+
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+  {% load static %}
+  <meta charset="UTF-8">
+  <title>Emotion Detector</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
   <div class="container">
     <h1>Emotion Detection AI</h1>
   
@@ -120,4 +241,4 @@
 </body>
 </html>
 
-
+ {% endcomment %}
