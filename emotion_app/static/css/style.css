@@ -101,6 +101,10 @@ body {
   }
   
 
-
-
+  footer {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
   
